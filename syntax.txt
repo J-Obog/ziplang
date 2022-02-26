@@ -10,6 +10,7 @@ chr -> character
 str -> string
 float -> floating point number
 fn -> function
+ret -> return
 for -> for loop
 while -> while loop
 true -> logical true
