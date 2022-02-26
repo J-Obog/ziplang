@@ -1,0 +1,36 @@
+ZIPLANG
+
+My very own programming language
+
+
+KEYWORDS
+
+int -> integer
+chr -> character
+str -> string
+float -> floating point number
+fn -> function
+for -> for loop
+while -> while loop
+true -> logical true
+false -> logical false
+if -> if statement
+else -> else statement
+elf -> else if statement
+
+OPERATORS
+> -> greater than
+>= -> greater than or equal to
+< -> less than
+<= -> less than or equal to
+== -> equal to
+!= -> not equal to
++ -> addition
+- -> subtraction
+* -> multiplaction
+/ -> division
+% -> modulo
+= -> assignment
+! -> not
+| -> or
+& -> and
