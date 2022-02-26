@@ -35,3 +35,13 @@ OPERATORS
 ! -> not
 | -> or
 & -> and
+
+SPECIAL CHARS
+
+{ -> opening curly     
+} -> closing curly
+[ -> opening bracket
+] -> closing bracket
+( -> opening parentheses
+) -> closing parenthesis
+\ -> backwards slash
