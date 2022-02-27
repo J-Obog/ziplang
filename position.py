@@ -9,3 +9,9 @@ class Position:
 
     def get_lineno(self) -> int:
         return self.__line
+
+    def set_columnno(self, col: int):
+        self.__col = col
+
+    def set_lineno(self, line: int):
+        self.__line = line
