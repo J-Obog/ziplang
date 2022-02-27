@@ -4,14 +4,14 @@ class Position:
         self.__col: int = col
         self.__line: int = line
     
-    def get_columnno(self) -> int:
+    def get_col(self) -> int:
         return self.__col
 
-    def get_lineno(self) -> int:
+    def get_ln(self) -> int:
         return self.__line
 
-    def set_columnno(self, col: int):
+    def set_col(self, col: int):
         self.__col = col
 
-    def set_lineno(self, line: int):
+    def set_ln(self, line: int):
         self.__line = line
