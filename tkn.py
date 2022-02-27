@@ -1,4 +1,4 @@
-from tknkinds import TokenType
+from tknkinds import TokenType, DataType
 
 class Token:
     def __init__(self, type: TokenType, img: str, col: int, line: int):
@@ -19,3 +19,15 @@ class Token:
     def get_lineno(self) -> int:
         return self.__line
 
+
+class TokenLiteral(Token):
+    def __init__(self, type: TokenType, img: str, col: int, line: int, val: any, data: DataType):
+        super().__init__(type, img, col, line) 
+        self.__val: any = val
+        self.__data: DataType = DataType
+
+    def get_value(self) -> any:
+        return self.__val
+
+    def get_datatype(self) -> DataType:
+        return self.__data
