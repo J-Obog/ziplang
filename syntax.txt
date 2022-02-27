@@ -8,6 +8,7 @@ KEYWORDS
 int -> integer
 chr -> character
 str -> string
+bool -> boolean
 float -> floating point number
 fn -> function
 ret -> return
