@@ -2,6 +2,7 @@ import scan
 import tkn
 import copy
 import re
+import math
 from typing import List
 
 
@@ -16,22 +17,18 @@ class Lexer:
     def __lex_num(self):
         p = copy.deepcopy(self.__scanner.position())
         b = ''
-        dp = False
 
         while (not self.__scanner.end()) and (not self.__scanner.curr_chr().isspace()):
             c = self.__scanner.curr_chr()
-            
-            if c == '.':
-                dp = True
-
             b += c
             self.__scanner.advance()
 
         if re.match('^[+-]?([0-9]+\.?[0-9]*|\.[0-9]+)$', b):
-            if dp:
-                self.__tkns.append(tkn.TokenLiteral(tkn.TokenType.Literal, b, p, float(b), tkn.DataType.Float))
+            v = float(b)
+            if v % 1 != 0:
+                self.__tkns.append(tkn.TokenLiteral(tkn.TokenType.Literal, b, p, v, tkn.DataType.Float))
             else:
-                self.__tkns.append(tkn.TokenLiteral(tkn.TokenType.Literal, b, p, int(b), tkn.DataType.Integer))
+                self.__tkns.append(tkn.TokenLiteral(tkn.TokenType.Literal, b, p, math.floor(v), tkn.DataType.Integer))
         else:
             raise Exception('Invalid syntax')
 

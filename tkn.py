@@ -40,7 +40,7 @@ class TokenLiteral(Token):
     def __init__(self, type: TokenType, img: str, pos: Position, val: any, data: DataType):
         super().__init__(type, img, pos)
         self.__val: any = val
-        self.__data: DataType = DataType
+        self.__data: DataType = data
 
     def value(self) -> any:
         return self.__val
