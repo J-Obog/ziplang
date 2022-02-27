@@ -1,9 +1,9 @@
 from lex import Lexer
 
 
-k = "123.45 8485"
+k = '"123.45 8485"""'
 
 l = Lexer(k)
-l.scan()
+l.lex()
 
-print(l.tokens()[0]) 
+print(l.tokens()) 

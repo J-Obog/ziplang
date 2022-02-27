@@ -19,8 +19,7 @@ class Lexer:
         b = ''
 
         while (not self.__scanner.end()) and (not self.__scanner.curr_chr().isspace()):
-            c = self.__scanner.curr_chr()
-            b += c
+            b += self.__scanner.curr_chr()
             self.__scanner.advance()
 
         if re.match('^[+-]?([0-9]+\.?[0-9]*|\.[0-9]+)$', b):
@@ -30,15 +29,31 @@ class Lexer:
             else:
                 self.__tkns.append(tkn.TokenLiteral(tkn.TokenType.Literal, b, p, math.floor(v), tkn.DataType.Integer))
         else:
-            raise Exception('Invalid syntax')
+            raise Exception('Error while scanning num literal')
 
+    def __lex_string(self):
+        p = copy.deepcopy(self.__scanner.position())
+        b = '' 
 
-    def scan(self):
+        while (not self.__scanner.end()) and (self.__scanner.curr_chr() != '"'):
+            b += self.__scanner.curr_chr()
+            self.__scanner.advance()
+
+        if not self.__scanner.end():
+            self.__tkns.append(tkn.TokenLiteral(tkn.TokenType.Literal, b, p, b, tkn.DataType.String))
+        else:
+            raise Exception('Error while scanning string literal')
+
+    def lex(self):
         while not self.__scanner.end():
             c = self.__scanner.curr_chr()
             try:
                 if c.isdigit():
+                    print(c)
                     self.__lex_num()
+                elif c == '"':
+                    self.__scanner.advance()
+                    self.__lex_string()
 
                 self.__scanner.advance()
                 
