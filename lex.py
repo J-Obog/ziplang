@@ -44,6 +44,20 @@ class Lexer:
         else:
             raise Exception('Error while scanning string literal')
 
+    def __lex_char(self):
+        p = copy.deepcopy(self.__scanner.position())
+        b = '' 
+
+        while (not self.__scanner.end()) and (self.__scanner.curr_chr() != '\''):
+            b += self.__scanner.curr_chr()
+            self.__scanner.advance()
+
+        if not self.__scanner.end() and len(b) == 1:
+            self.__tkns.append(tkn.TokenLiteral(tkn.TokenType.Literal, b, p, b, tkn.DataType.Character))
+        else:
+            raise Exception('Error while scanning character literal')
+
+
     def lex(self):
         while not self.__scanner.end():
             c = self.__scanner.curr_chr()
@@ -54,6 +68,9 @@ class Lexer:
                 elif c == '"':
                     self.__scanner.advance()
                     self.__lex_string()
+                elif c == '\'':
+                    self.__scanner.advance()
+                    self.__lex_char()
 
                 self.__scanner.advance()
                 
