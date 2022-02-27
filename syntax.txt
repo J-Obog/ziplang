@@ -32,6 +32,7 @@ OPERATORS
 * -> multiplaction
 / -> division
 % -> modulo
+^ -> exponentiation
 = -> assignment
 ! -> not
 | -> or
@@ -46,3 +47,4 @@ SPECIAL CHARS
 ( -> opening parentheses
 ) -> closing parenthesis
 \ -> backwards slash
+, -> comma
