@@ -1,11 +1,11 @@
 from tknkinds import TokenType, DataType
+from position import Position
 
 class Token:
-    def __init__(self, type: TokenType, img: str, col: int, line: int):
+    def __init__(self, type: TokenType, img: str, pos: Position):
         self.__type: TokenType = type 
         self.__img: str = img
-        self.__col: int = col
-        self.__line: int = line
+        self.__pos: Position = pos
 
     def get_type(self) -> TokenType:
         return self.__type
@@ -21,6 +21,9 @@ class Token:
 
     def get_length(self) -> int: 
         return len(self.__img)
+
+    def get_position(self) -> Position:
+        return self.__pos
 
 
 class TokenLiteral(Token):
