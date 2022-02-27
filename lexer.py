@@ -1,8 +1,8 @@
 from typing import List
-from unicodedata import digit
 from tkn import Token, TokenLiteral
 from tknkinds import TokenType, DataType
 from position import Position
+import re
 
 class Lexer:
     def __init__(self, input: str):
@@ -10,6 +10,9 @@ class Lexer:
         self.__counter: int = 0
         self.__pos: Position = Position(0,0)
         self.__tkns: List[Token] = []
+
+    def get_tokens(self) -> List[Token]:
+        return self.__tkns
 
     def __move(self, col: int, ln: int):
         self.__pos.set_col(self.__pos.get_col() + col)
@@ -34,27 +37,24 @@ class Lexer:
     def __lex_num(self):
         p = self.__pos
         b = ''
-        v = 0
+        dp = False
+
         while self.__next() and not self.__curr().isspace():
             c = self.__curr()
-            b += c
+            
             if c == '.':
-                if b.count('.') > 1:
-                    raise Exception('Too many decimal points')
-            elif not c.isdigit():
-                    raise Exception('Not a real number')
+                dp = True
 
+            b += c
             self.__counter += 1
 
-        for i in range(len(b)):
-            v += int(b[i]) * (10 ** (len(b) - i - 1))
-
-        dp = b.find('.')
-
-        if dp != -1:
-            self.__tkns.append(TokenLiteral(TokenType.Literal, b, p, v * (10 * -((len(b) - dp) - 1)), DataType.Float))
+        if re.match('^[+-]?([0-9]+\.?[0-9]*|\.[0-9]+)$', b):
+            if dp:
+                self.__tkns.append(TokenLiteral(TokenType.Literal, b, p, float(b), DataType.Float))
+            else:
+                self.__tkns.append(TokenLiteral(TokenType.Literal, b, p, int(b), DataType.Integer))
         else:
-            self.__tkns.append(TokenLiteral(TokenType.Literal, b, p, v, DataType.Integer))
+            raise Exception('Invalid syntax')
 
 
     def scan(self):
@@ -66,8 +66,6 @@ class Lexer:
                     self.__lex_ws()
                 elif c.isdigit():
                     self.__lex_num() 
-                        
-
             except Exception as e:
                 print(e)
                 exit(1)
