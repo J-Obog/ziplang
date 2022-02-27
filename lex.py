@@ -3,6 +3,7 @@ import tkn
 import copy
 import re
 import math
+import constants
 from typing import List
 
 
@@ -57,20 +58,35 @@ class Lexer:
         else:
             raise Exception('Error while scanning character literal')
 
+    def __lex_spec_char(self):
+        p = copy.deepcopy(self.__scanner.position())
+        b = ''
+
+        while (not self.__scanner.end()) and (not self.__scanner.curr_chr().isspace()):
+            b += self.__scanner.curr_chr()
+            self.__scanner.advance()
+
+        if b in constants.SPECIALCHAR_TOKENS:
+            self.__tkns.append(tkn.Token(tkn.TokenType.SpecialCharacter, b, p))
+        else:
+            raise Exception('Error while scanning token')
+
 
     def lex(self):
         while not self.__scanner.end():
             c = self.__scanner.curr_chr()
             try:
                 if c.isdigit():
-                    print(c)
                     self.__lex_num()
-                elif c == '"':
-                    self.__scanner.advance()
-                    self.__lex_string()
-                elif c == '\'':
-                    self.__scanner.advance()
-                    self.__lex_char()
+                elif any(k.startswith(c) for k in constants.SPECIALCHAR_TOKENS):
+                    if c == '"':
+                        self.__scanner.advance()
+                        self.__lex_string()
+                    elif c == '\'':
+                        self.__scanner.advance()
+                        self.__lex_char()
+                    else:
+                        self.__lex_spec_char()
 
                 self.__scanner.advance()
                 
