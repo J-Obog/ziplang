@@ -19,6 +19,9 @@ class Token:
     def get_length(self) -> int: 
         return len(self.__img)
 
+    def __repr__(self) -> str:
+        return f'Token({self.__type.name}, {self.__img}, {self.__pos})'
+
 
 class TokenLiteral(Token):
     def __init__(self, type: TokenType, img: str, pos: Position, val: any, data: DataType):

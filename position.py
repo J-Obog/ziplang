@@ -15,3 +15,6 @@ class Position:
 
     def set_ln(self, line: int):
         self.__line = line
+
+    def __repr__(self) -> str:
+        return f'Position({self.__col},{self.__line})'
