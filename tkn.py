@@ -19,6 +19,9 @@ class Token:
     def get_lineno(self) -> int:
         return self.__line
 
+    def get_length(self) -> int: 
+        return len(self.__img)
+
 
 class TokenLiteral(Token):
     def __init__(self, type: TokenType, img: str, col: int, line: int, val: any, data: DataType):
