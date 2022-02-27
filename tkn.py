@@ -1,5 +1,18 @@
-from tknkinds import TokenType, DataType
+from enum import Enum
 from position import Position
+
+class TokenType(Enum):
+    Keyword = 'KEY'
+    Literal = 'LIT'
+    Identifier = 'ID'
+    SpecialCharacter = 'SPC'
+
+class DataType(Enum):
+    Integer = 'INT'
+    String = 'STR'
+    Float = 'FLOAT'
+    Character = 'CHR'
+    Boolean = 'BOOL'
 
 class Token:
     def __init__(self, type: TokenType, img: str, pos: Position):
@@ -7,20 +20,20 @@ class Token:
         self.__img: str = img
         self.__pos: Position = pos
 
-    def get_position(self) -> Position:
+    def position(self) -> Position:
         return self.__pos
 
-    def get_type(self) -> TokenType:
+    def type(self) -> TokenType:
         return self.__type
 
-    def get_text(self) -> str:
+    def text(self) -> str:
         return self.__img
 
-    def get_length(self) -> int: 
+    def length(self) -> int: 
         return len(self.__img)
 
     def __repr__(self) -> str:
-        return f'Token({self.__type.name}, {self.__img}, {self.__pos})'
+        return f'Token({self.__type.value}, {self.__img}, {self.__pos})'
 
 
 class TokenLiteral(Token):
@@ -29,9 +42,9 @@ class TokenLiteral(Token):
         self.__val: any = val
         self.__data: DataType = DataType
 
-    def get_value(self) -> any:
+    def value(self) -> any:
         return self.__val
 
-    def get_datatype(self) -> DataType:
+    def datatype(self) -> DataType:
         return self.__data 
 

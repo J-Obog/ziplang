@@ -1,20 +1,20 @@
-from typing import List
-from tkn import Token, TokenLiteral
-from tknkinds import TokenType, DataType
-from scanner import Scanner
-from copy import deepcopy
+import scan
+import tkn
+import copy
 import re
+from typing import List
+
 
 class Lexer:
     def __init__(self, input: str):
-        self.__scanner: Scanner = Scanner(input)
-        self.__tkns: List[Token] = []
+        self.__scanner: scan.Scanner = scan.Scanner(input)
+        self.__tkns: List[tkn.Token] = []
 
-    def get_tokens(self) -> List[Token]:
+    def tokens(self) -> List[tkn.Token]:
         return self.__tkns
 
     def __lex_num(self):
-        p = deepcopy(self.__scanner.position())
+        p = copy.deepcopy(self.__scanner.position())
         b = ''
         dp = False
 
@@ -29,9 +29,9 @@ class Lexer:
 
         if re.match('^[+-]?([0-9]+\.?[0-9]*|\.[0-9]+)$', b):
             if dp:
-                self.__tkns.append(TokenLiteral(TokenType.Literal, b, p, float(b), DataType.Float))
+                self.__tkns.append(tkn.TokenLiteral(tkn.TokenType.Literal, b, p, float(b), tkn.DataType.Float))
             else:
-                self.__tkns.append(TokenLiteral(TokenType.Literal, b, p, int(b), DataType.Integer))
+                self.__tkns.append(tkn.TokenLiteral(tkn.TokenType.Literal, b, p, int(b), tkn.DataType.Integer))
         else:
             raise Exception('Invalid syntax')
 

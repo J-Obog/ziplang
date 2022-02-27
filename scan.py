@@ -8,8 +8,8 @@ class Scanner:
         self.__idx: int = 0 
 
     def __move(self, col: int, ln: int):
-        self.__pos.set_col(self.__pos.get_col() + col)
-        self.__pos.set_ln(self.__pos.get_ln() + ln)
+        self.__pos.set_col(self.__pos.col() + col)
+        self.__pos.set_line(self.__pos.line() + ln)
 
     def __get_chr(self, offset: int) -> Optional[chr]:
         p = self.__idx + offset

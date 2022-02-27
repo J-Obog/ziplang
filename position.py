@@ -4,16 +4,16 @@ class Position:
         self.__col: int = col
         self.__line: int = line
     
-    def get_col(self) -> int:
+    def col(self) -> int:
         return self.__col
 
-    def get_ln(self) -> int:
+    def line(self) -> int:
         return self.__line
 
     def set_col(self, col: int):
         self.__col = col
 
-    def set_ln(self, line: int):
+    def set_line(self, line: int):
         self.__line = line
 
     def __repr__(self) -> str:
