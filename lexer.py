@@ -1,52 +1,30 @@
 from typing import List
 from tkn import Token, TokenLiteral
 from tknkinds import TokenType, DataType
-from position import Position
+from scanner import Scanner
 import re
 
 class Lexer:
     def __init__(self, input: str):
-        self.__text: str = input
-        self.__counter: int = 0
-        self.__pos: Position = Position(0,0)
+        self.__scanner: Scanner = Scanner(input)
         self.__tkns: List[Token] = []
 
     def get_tokens(self) -> List[Token]:
         return self.__tkns
 
-    def __move(self, col: int, ln: int):
-        self.__pos.set_col(self.__pos.get_col() + col)
-        self.__pos.set_ln(self.__pos.get_ln() + ln)
-
-    def __curr(self) -> chr:
-        return self.__text[self.__counter]
-
-    def __next(self) -> bool:
-        return self.__counter < len(self.__text)
-
-    def __lex_ws(self): 
-        c = self.__curr()
-        
-        if c == '\n':
-            self.__move(-self.__pos.get_col(),1)
-        elif c == '\t':
-            self.__move(4,0)
-        else:
-            self.__move(1,0)
-
     def __lex_num(self):
-        p = self.__pos
+        p = self.__scanner.position()
         b = ''
         dp = False
 
-        while self.__next() and not self.__curr().isspace():
-            c = self.__curr()
+        while (not self.__scanner.end()) and (not self.__scanner.curr_chr().isspace()):
+            c = self.__scanner.curr_chr()
             
             if c == '.':
                 dp = True
 
             b += c
-            self.__counter += 1
+            self.__scanner.advance()
 
         if re.match('^[+-]?([0-9]+\.?[0-9]*|\.[0-9]+)$', b):
             if dp:
@@ -58,14 +36,14 @@ class Lexer:
 
 
     def scan(self):
-        while self.__next():
-            c = self.__curr()
-
+        while not self.__scanner.end():
+            c = self.__scanner.curr_chr()
             try:
-                if c.isspace():
-                    self.__lex_ws()
-                elif c.isdigit():
-                    self.__lex_num() 
+                if c.isdigit():
+                    self.__lex_num()
+
+                self.__scanner.advance()
+                
             except Exception as e:
                 print(e)
                 exit(1)
