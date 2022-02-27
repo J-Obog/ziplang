@@ -2,6 +2,7 @@ from typing import List
 from tkn import Token, TokenLiteral
 from tknkinds import TokenType, DataType
 from scanner import Scanner
+from copy import deepcopy
 import re
 
 class Lexer:
@@ -13,7 +14,7 @@ class Lexer:
         return self.__tkns
 
     def __lex_num(self):
-        p = self.__scanner.position()
+        p = deepcopy(self.__scanner.position())
         b = ''
         dp = False
 
