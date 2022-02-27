@@ -48,3 +48,4 @@ class TokenLiteral(Token):
     def datatype(self) -> DataType:
         return self.__data 
 
+

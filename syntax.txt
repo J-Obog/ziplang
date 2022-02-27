@@ -39,7 +39,6 @@ OPERATORS
 & -> and
 
 SPECIAL CHARS
-
 { -> opening curly     
 } -> closing curly
 [ -> opening bracket
