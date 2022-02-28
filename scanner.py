@@ -42,7 +42,10 @@ class Scanner:
             
             self.__idx += 1
 
-    def position(self) -> str:
+    def index(self) -> int:
+        return self.__idx
+
+    def position(self) -> Position:
         return self.__pos
 
     def text(self) -> str: 
