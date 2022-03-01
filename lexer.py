@@ -36,15 +36,27 @@ class Lexer:
                 if not re.match('\d*\.?\d*$', c) or (not self.__scanner.next_chr()):
                     v = float(self.__buffer[:-1])
                     if v % 1 == 0:
-                        self.__tokens.append(TokenLiteral(TokenType.Literal, self.__buffer, p, math.floor(v), DataType.Integer))
+                        self.__tokens.append(TokenLiteral(TokenType.Literal, self.__buffer[:-1], p, math.floor(v), DataType.Integer))
                     else:
-                        self.__tokens.append(TokenLiteral(TokenType.Literal, self.__buffer, p, v, DataType.Float))
+                        self.__tokens.append(TokenLiteral(TokenType.Literal, self.__buffer[:-1], p, v, DataType.Float))
                     self.__buffer = c
                     self.__state = ScanState.Scanning
+
+            if self.__state == ScanState.String:
+                if c == '"':
+                    self.__tokens.append(TokenLiteral(TokenType.Literal, self.__buffer[1:-1], p, self.__buffer[1:-1], DataType.String))
+                    self.__buffer = c
+                    self.__state = ScanState.Scanning
+                    self.__scanner.advance()
+                if not self.__scanner.next_chr():
+                    pass
+                    #handle error
 
             if self.__state == ScanState.Scanning:
                 if re.match('\d', c):
                     self.__state = ScanState.Number
+                elif c == '"':
+                    self.__state = ScanState.String
             
             self.__scanner.advance()
             
