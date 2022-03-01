@@ -2,7 +2,7 @@ from lexer import Lexer
 
 
 k = '"123.45 8485"""'
-a = '"Hello World"'
+a = "'h'"
 
 l = Lexer(a)
 l.lex()

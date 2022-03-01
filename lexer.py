@@ -45,9 +45,23 @@ class Lexer:
             if self.__state == ScanState.String:
                 if c == '"':
                     self.__tokens.append(TokenLiteral(TokenType.Literal, self.__buffer[1:-1], p, self.__buffer[1:-1], DataType.String))
-                    self.__buffer = c
+                    self.__buffer = ''
                     self.__state = ScanState.Scanning
                     self.__scanner.advance()
+                if not self.__scanner.next_chr():
+                    pass
+                    #handle error
+
+            if self.__state == ScanState.Character:
+                if c == '\'':
+                    if (len(self.__buffer) - 2) == 1:
+                        self.__tokens.append(TokenLiteral(TokenType.Literal, self.__buffer[1], p, self.__buffer[1], DataType.Character))
+                        self.__buffer = ''
+                        self.__state = ScanState.Scanning
+                        self.__scanner.advance()
+                    else:
+                        pass
+                        #handle error
                 if not self.__scanner.next_chr():
                     pass
                     #handle error
@@ -57,6 +71,8 @@ class Lexer:
                     self.__state = ScanState.Number
                 elif c == '"':
                     self.__state = ScanState.String
+                elif c == '\'':
+                    self.__state = ScanState.Character
             
             self.__scanner.advance()
             
