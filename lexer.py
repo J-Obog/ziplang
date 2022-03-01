@@ -1,5 +1,5 @@
-import scanner
-import tokens
+from scanner import Scanner
+from tokens import Token, TokenLiteral, DataType, TokenType
 import copy
 import re
 import math
@@ -15,18 +15,39 @@ class ScanState(Enum):
 
 class Lexer:
     def __init__(self, input: str):
-        self.__scanner: scanner.Scanner = scanner.Scanner(input)
-        self.__tokens: List[tokens.Token] = []
+        self.__scanner: Scanner = Scanner(input)
+        self.__tokens: List[Token] = []
         self.__state: ScanState = ScanState.Scanning
+        self.__buffer: str = ''
 
-    def tokens(self) -> List[tokens.Token]:
-        return self.__tkns
+    def tokens(self) -> List[Token]:
+        return self.__tokens
+
+    def state(self) -> ScanState:
+        return self.__state 
 
     def lex(self):
         while not self.__scanner.end():
-                try:
-                    pass
-                except Exception as e:
-                    print(e)
-                    exit(1)
+            c = self.__scanner.curr_chr()
+            p = self.__scanner.position()
+            self.__buffer += c
 
+            if self.__state == ScanState.Number:
+                if not re.match('\d*\.?\d*$', c) or (not self.__scanner.next_chr()):
+                    v = float(self.__buffer[:-1])
+                    if v % 1 == 0:
+                        self.__tokens.append(TokenLiteral(TokenType.Literal, self.__buffer, p, math.floor(v), DataType.Integer))
+                    else:
+                        self.__tokens.append(TokenLiteral(TokenType.Literal, self.__buffer, p, v, DataType.Float))
+                    self.__buffer = c
+                    self.__state = ScanState.Scanning
+
+            if self.__state == ScanState.Scanning:
+                if re.match('\d', c):
+                    self.__state = ScanState.Number
+            
+            self.__scanner.advance()
+            
+
+
+              
