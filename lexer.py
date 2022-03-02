@@ -1,80 +1,52 @@
+from position import Position
 from scanner import Scanner
 from tokens import Token, TokenLiteral, DataType, TokenType
+from typing import List
 import copy
 import re
 import math
-from enum import Enum
-from typing import List
 
-class ScanState(Enum):
-    String = 'STR'
-    Number = 'NUM'
-    Character = 'CHR'
-    Identifier = 'ID'
-    Scanning = 'SCAN'
 
 class Lexer:
     def __init__(self, input: str):
         self.__scanner: Scanner = Scanner(input)
         self.__tokens: List[Token] = []
-        self.__state: ScanState = ScanState.Scanning
-        self.__buffer: str = ''
 
     def tokens(self) -> List[Token]:
         return self.__tokens
 
-    def state(self) -> ScanState:
-        return self.__state 
+    def __lex_num(self) -> Token:
+        pos: Position = copy.deepcopy(self.__scanner.position())
+        buff: str = ''
 
+        while re.match('\d|\.', self.__scanner.curr_chr()) and not self.__scanner.end():
+            buff += self.__scanner.curr_chr()
+            self.__scanner.advance()
+
+        if re.match('\d*\.?\d*$', buff):
+            v: float = float(buff)
+            if v % 1 == 0:
+                return TokenLiteral(TokenType.Literal, buff, pos, math.floor(v), DataType.Integer)
+            else:
+                return TokenLiteral(TokenType.Literal, buff, pos, v, DataType.Float)
+        else:
+            raise Exception('Error while scanning num literal')
+
+    
     def lex(self):
         while not self.__scanner.end():
             c = self.__scanner.curr_chr()
-            p = self.__scanner.position()
-            self.__buffer += c
-
-            if self.__state == ScanState.Number:
-                if not re.match('\d*\.?\d*$', c) or (not self.__scanner.next_chr()):
-                    v = float(self.__buffer[:-1])
-                    if v % 1 == 0:
-                        self.__tokens.append(TokenLiteral(TokenType.Literal, self.__buffer[:-1], p, math.floor(v), DataType.Integer))
-                    else:
-                        self.__tokens.append(TokenLiteral(TokenType.Literal, self.__buffer[:-1], p, v, DataType.Float))
-                    self.__buffer = c
-                    self.__state = ScanState.Scanning
-
-            if self.__state == ScanState.String:
-                if c == '"':
-                    self.__tokens.append(TokenLiteral(TokenType.Literal, self.__buffer[1:-1], p, self.__buffer[1:-1], DataType.String))
-                    self.__buffer = ''
-                    self.__state = ScanState.Scanning
+            try:
+                if re.match('\s', c):
                     self.__scanner.advance()
-                if not self.__scanner.next_chr():
-                    pass
-                    #handle error
+                elif re.match('\d', c):
+                    self.__lex_num()
+            except Exception as e:
+                print(e)
+                exit(1)
 
-            if self.__state == ScanState.Character:
-                if c == '\'':
-                    if (len(self.__buffer) - 2) == 1:
-                        self.__tokens.append(TokenLiteral(TokenType.Literal, self.__buffer[1], p, self.__buffer[1], DataType.Character))
-                        self.__buffer = ''
-                        self.__state = ScanState.Scanning
-                        self.__scanner.advance()
-                    else:
-                        pass
-                        #handle error
-                if not self.__scanner.next_chr():
-                    pass
-                    #handle error
 
-            if self.__state == ScanState.Scanning:
-                if re.match('\d', c):
-                    self.__state = ScanState.Number
-                elif c == '"':
-                    self.__state = ScanState.String
-                elif c == '\'':
-                    self.__state = ScanState.Character
-            
-            self.__scanner.advance()
+
             
 
 
