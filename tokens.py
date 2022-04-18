@@ -8,7 +8,6 @@ class TokenType(Enum):
     SpecialCharacter = 'SPEC'
     Operator = 'OP'
 
-
 class Token:
     def __init__(self, type: TokenType, img: str, pos: Position):
         self.__type: TokenType = type 
