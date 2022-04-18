@@ -1,8 +1,12 @@
 from typing import Optional
-from tokens import Token, TokenType#, TokenType
+from tokens import Token, TokenType
 from position import Position
 import copy
 import re
+
+
+KEYWORD_LST = r"(int|chr|str|bool|float|fn|ret|for|while|true|false|if|else|elf)"
+
 
 class Lexer:
     def __init__(self, input: str):
@@ -78,7 +82,7 @@ class Lexer:
             buf += self.__curr()
             self.__advance()
 
-        return Token(TokenType.Identifier, buf, tpos)
+        return Token(TokenType.Keyword, buf, tpos) if re.match(KEYWORD_LST, buf) else Token(TokenType.Identifier, buf, tpos)
 
 
     def next_token(self) -> Optional[Token]:
