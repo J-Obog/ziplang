@@ -1,6 +1,6 @@
 from lexer import Lexer
 
-txt = "\"This is some string\""
+txt = "somevariable int"
 
 l = Lexer(txt)
  

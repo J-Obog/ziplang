@@ -70,6 +70,16 @@ class Lexer:
 
         return Token(TokenType.Literal, buf, tpos)
 
+    def __lexalphnum(self) -> Token:
+        tpos = copy.deepcopy(self.__pos) 
+        buf = ""
+
+        while re.match(r"^[a-zA-Z_][a-zA-Z_\d]*$", buf + self.__curr()) and not self.__end():
+            buf += self.__curr()
+            self.__advance()
+
+        return Token(TokenType.Identifier, buf, tpos)
+
 
     def next_token(self) -> Optional[Token]:
         while re.match(r"\s", self.__curr()):
@@ -87,4 +97,6 @@ class Lexer:
         elif c == '\"':
             self.__advance()
             return self.__lexstr()
+        elif re.match(r"[a-zA-Z_]", c):
+            return self.__lexalphnum()
             
