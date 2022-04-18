@@ -4,9 +4,8 @@ from position import Position
 import copy
 import re
 
-
-KEYWORD_LST = r"(int|chr|str|bool|float|fn|ret|for|while|true|false|if|else|elf)"
-
+KEYWORD_LST = r"^(int|chr|str|bool|float|fn|ret|for|while|true|false|if|else|elf)$"
+OPERATOR_LST = r"^(\>|\<|\+|\-|\*|\%|\^|\=|\!|\/|\&|\||==|!=|>=|<=)$"
 
 class Lexer:
     def __init__(self, input: str):
@@ -84,6 +83,16 @@ class Lexer:
 
         return Token(TokenType.Keyword, buf, tpos) if re.match(KEYWORD_LST, buf) else Token(TokenType.Identifier, buf, tpos)
 
+    def __lexop(self) -> Token:
+        tpos = copy.deepcopy(self.__pos) 
+        buf = ""
+
+        while re.match(OPERATOR_LST, buf + self.__curr()) and not self.__end():
+            buf += self.__curr()
+            self.__advance()
+
+        return Token(TokenType.Operator, buf, tpos)
+
 
     def next_token(self) -> Optional[Token]:
         while re.match(r"\s", self.__curr()):
@@ -103,4 +112,6 @@ class Lexer:
             return self.__lexstr()
         elif re.match(r"[a-zA-Z_]", c):
             return self.__lexalphnum()
+        elif re.match(OPERATOR_LST, c):
+            return self.__lexop()
             
