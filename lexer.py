@@ -6,6 +6,9 @@ import copy
 import re
 import math
 
+DIGITS = '0123456789'
+WS = '\t\r\n '
+SPECIAL_CHARS = '{}[]()><=!+-*/%^|&.,:\"\''
 
 class Lexer:
     def __init__(self, input: str):
@@ -19,7 +22,7 @@ class Lexer:
         pos: Position = copy.deepcopy(self.__scanner.position())
         buff: str = ''
 
-        while re.match('\d|\.', self.__scanner.curr_chr()) and not self.__scanner.end():
+        while re.match('\d|\.', str(self.__scanner.curr_chr())) and not self.__scanner.end():
             buff += self.__scanner.curr_chr()
             self.__scanner.advance()
 
@@ -32,15 +35,51 @@ class Lexer:
         else:
             raise Exception('Error while scanning num literal')
 
+    def __lex_str(self) -> Token:
+        pos: Position = copy.deepcopy(self.__scanner.position())
+        buff: str = ''
+
+        while self.__scanner.curr_chr() != '\"' and not self.__scanner.end():
+            buff += self.__scanner.curr_chr()
+            self.__scanner.advance()
+
+        if not self.__scanner.end():
+            return TokenLiteral(TokenType.Literal, buff, pos, buff, DataType.String)
+        else:
+            raise Exception('Error while scanning string literal')
     
+    def __lex_chr(self) -> Token:
+        pos: Position = copy.deepcopy(self.__scanner.position())
+        buff: str = ''
+
+        while self.__scanner.curr_chr() != '\'' and not self.__scanner.end():
+            buff += self.__scanner.curr_chr()
+            self.__scanner.advance()
+
+        if not self.__scanner.end() and len(buff) == 1:
+            return TokenLiteral(TokenType.Literal, buff, pos, buff, DataType.Character)
+        else:
+            raise Exception('Error while scanning string literal')
+
     def lex(self):
         while not self.__scanner.end():
             c = self.__scanner.curr_chr()
             try:
-                if re.match('\s', c):
+                if c in WS:
                     self.__scanner.advance()
-                elif re.match('\d', c):
-                    self.__lex_num()
+                elif c in DIGITS:
+                    self.__tokens.append(self.__lex_num())
+                elif c in SPECIAL_CHARS:
+                    if c == '\"':
+                        self.__scanner.advance()
+                        self.__tokens.append(self.__lex_str())
+                        self.__scanner.advance()
+                    elif c == '\'':
+                        self.__scanner.advance()
+                        self.__tokens.append(self.__lex_chr())
+                        self.__scanner.advance()
+                    else:
+                        pass
             except Exception as e:
                 print(e)
                 exit(1)

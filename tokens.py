@@ -5,14 +5,9 @@ class TokenType(Enum):
     Keyword = 'KEY'
     Literal = 'LIT'
     Identifier = 'ID'
-    SpecialCharacter = 'SPC'
+    SpecialCharacter = 'SPEC'
+    Operator = 'OP'
 
-class DataType(Enum):
-    Integer = 'INT'
-    String = 'STR'
-    Float = 'FLOAT'
-    Character = 'CHR'
-    Boolean = 'BOOL'
 
 class Token:
     def __init__(self, type: TokenType, img: str, pos: Position):
@@ -33,19 +28,5 @@ class Token:
         return len(self.__img)
 
     def __repr__(self) -> str:
-        return f'Token({self.__type.value}, {self.__img}, {self.__pos})'
-
-
-class TokenLiteral(Token):
-    def __init__(self, type: TokenType, img: str, pos: Position, val: any, data: DataType):
-        super().__init__(type, img, pos)
-        self.__val: any = val
-        self.__data: DataType = data
-
-    def value(self) -> any:
-        return self.__val
-
-    def datatype(self) -> DataType:
-        return self.__data 
-
+        return f'[{self.__type.value}, {self.__img}]'
 
