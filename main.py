@@ -1,10 +1,10 @@
 from lexer import Lexer
 
+txt = "2.45 5.6 8"
 
-k = '"123.45 8485"""'
-a = '"This \'text\'"'
-
-l = Lexer(a)
-l.lex()
+l = Lexer(txt)
  
-print(l.tokens()) 
+print(l.next_token()) 
+print(l.next_token()) 
+print(l.next_token()) 
+print(l.next_token()) 
