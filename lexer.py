@@ -6,6 +6,7 @@ import re
 
 KEYWORD_LST = r"^(int|chr|str|bool|float|fn|ret|for|while|true|false|if|else|elf)$"
 OPERATOR_LST = r"^(\>|\<|\+|\-|\*|\%|\^|\=|\!|\/|\&|\||==|!=|>=|<=)$"
+SPECIALCHRS_LST = r"^(\{|\}|\[|\]|\(|\)|\,)$"
 
 class Lexer:
     def __init__(self, input: str):
@@ -114,4 +115,7 @@ class Lexer:
             return self.__lexalphnum()
         elif re.match(OPERATOR_LST, c):
             return self.__lexop()
-            
+        elif re.match(SPECIALCHRS_LST, c):
+            tpos = copy.deepcopy(self.__pos)
+            self.__advance()
+            return Token(TokenType.SpecialCharacter, c, tpos)

@@ -1,9 +1,11 @@
 from lexer import Lexer
 
-txt = "somevar | othervar"
+txt = "myfunction(){}"
 
 l = Lexer(txt)
  
+print(l.next_token()) 
+print(l.next_token()) 
 print(l.next_token()) 
 print(l.next_token()) 
 print(l.next_token()) 
