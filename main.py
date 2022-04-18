@@ -1,10 +1,8 @@
 from lexer import Lexer
 
-txt = "2.45 5.6 8"
+txt = "'a'"
 
 l = Lexer(txt)
  
-print(l.next_token()) 
-print(l.next_token()) 
 print(l.next_token()) 
 print(l.next_token()) 

@@ -29,6 +29,23 @@ class Lexer:
     def __end(self):
         return self.__idx >= len(self.__input)
 
+    def __lexchar(self) -> Token:
+        tpos = copy.deepcopy(self.__pos) 
+        buf = ""
+
+        while self.__curr() != '\'' and not self.__end():
+            if len(buf) > 1:
+                raise Exception('Error while scanning character literal')
+            buf += self.__curr()
+            self.__advance()
+
+        if self.__end():
+            raise Exception('Error while scanning character literal')
+
+        self.__advance()
+        return Token(TokenType.Literal, buf, tpos)
+
+
     def __lexnum(self) -> Token:
         tpos = copy.deepcopy(self.__pos) 
         buf = ""
@@ -36,8 +53,9 @@ class Lexer:
         while re.match(r"^\d+\.?\d*$", buf + self.__curr()) and not self.__end():
             buf += self.__curr()
             self.__advance()
-            
+
         return Token(TokenType.Literal, buf, tpos)
+
 
     def next_token(self) -> Optional[Token]:
         while re.match(r"\s", self.__curr()):
@@ -49,3 +67,6 @@ class Lexer:
             return None
         elif re.match(r"\d", c):
             return self.__lexnum()
+        elif c == '\'':
+            self.__advance()
+            return self.__lexchar()
