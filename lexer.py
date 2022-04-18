@@ -29,6 +29,20 @@ class Lexer:
     def __end(self):
         return self.__idx >= len(self.__input)
 
+    def __lexstr(self) -> Token:
+        tpos = copy.deepcopy(self.__pos) 
+        buf = ""
+
+        while self.__curr() != '\"' and not self.__end():
+            buf += self.__curr()
+            self.__advance()
+
+        if self.__end():
+            raise Exception('Error while scanning string literal')
+
+        self.__advance()
+        return Token(TokenType.Literal, buf, tpos)
+
     def __lexchar(self) -> Token:
         tpos = copy.deepcopy(self.__pos) 
         buf = ""
@@ -70,3 +84,7 @@ class Lexer:
         elif c == '\'':
             self.__advance()
             return self.__lexchar()
+        elif c == '\"':
+            self.__advance()
+            return self.__lexstr()
+            

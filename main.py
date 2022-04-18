@@ -1,6 +1,6 @@
 from lexer import Lexer
 
-txt = "'a'"
+txt = "\"This is some string\""
 
 l = Lexer(txt)
  
