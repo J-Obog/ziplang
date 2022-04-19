@@ -1,7 +1,7 @@
 
 ZL_KEYWORD_LST = frozenset({"int","chr","str","bool","float","fn","ret","for","while","true","false","if","else","elf"})
 ZL_OPERATOR_LST = frozenset({'>','<','+','-','*','%','^','=','!','/','&','\\','==','!=','>=','<='})
-ZL_SPECIALCHRS_LST = frozenset({'{','}','[',']','(',')',','})
+ZL_SPECIALCHRS_LST = frozenset({'{','}','[',']','(',')',',', ';', ':'})
 
 ZL_KEYWORD = 0
 ZL_LITERAL = 1
