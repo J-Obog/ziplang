@@ -7,91 +7,91 @@ import re
 
 class Lexer:
     def __init__(self, input: str):
-        self.__input: str = input
-        self.__idx: int = 0
-        self.__pos: Position = Position(0,0)
+        self.input: str = input
+        self.idx: int = 0
+        self.pos: Position = Position(0,0)
 
-    def __curr(self) -> chr:
-        return '' if self.__end() else self.__input[self.__idx]
+    def curr(self) -> chr:
+        return '' if self.end() else self.input[self.idx]
 
-    def __advance(self):
-        c = self.__curr()
+    def advance(self):
+        c = self.curr()
 
         if c == '\n':
-            self.__pos.col = 0
-            self.__pos.line += 1
+            self.pos.col = 0
+            self.pos.line += 1
         elif c == '\t': 
-            self.__pos.col += 4
+            self.pos.col += 4
         else: 
-            self.__pos.col += 1
+            self.pos.col += 1
         
-        self.__idx += 1
+        self.idx += 1
 
-    def __end(self):
-        return self.__idx >= len(self.__input)
+    def end(self):
+        return self.idx >= len(self.input)
 
-    def __buffered_lex(self, fn: Callable) -> str:
+    def buffered_lex(self, fn: Callable) -> str:
         buf = ""
-        while fn(buf + self.__curr(), self.__curr()) and not self.__end():
-            buf += self.__curr()
-            self.__advance()
+        while fn(buf + self.curr(), self.curr()) and not self.end():
+            buf += self.curr()
+            self.advance()
         return buf
 
-    def __lexstr(self) -> Token:
-        tpos = copy.deepcopy(self.__pos) 
-        buf = self.__buffered_lex(lambda _,c: c != "\"")
+    def lexstr(self) -> Token:
+        tpos = copy.deepcopy(self.pos) 
+        buf = self.buffered_lex(lambda _,c: c != "\"")
 
-        if self.__end(): raise Exception('Error while scanning string literal')
+        if self.end(): raise Exception('Error while scanning string literal')
 
-        self.__advance()
+        self.advance()
         return Token(zlc.ZL_LITERAL, buf, tpos)
 
-    def __lexchar(self) -> Token:
-        tpos = copy.deepcopy(self.__pos) 
-        buf = self.__buffered_lex(lambda _,c: c != "\'")
+    def lexchar(self) -> Token:
+        tpos = copy.deepcopy(self.pos) 
+        buf = self.buffered_lex(lambda _,c: c != "\'")
 
-        if len(buf) > 1 or self.__end(): raise Exception('Error while scanning character literal')
+        if len(buf) > 1 or self.end(): raise Exception('Error while scanning character literal')
 
-        self.__advance()
+        self.advance()
         return Token(zlc.ZL_LITERAL, buf, tpos)
 
-    def __lexnum(self) -> Token:
-        tpos = copy.deepcopy(self.__pos) 
-        buf = self.__buffered_lex(lambda b,_: re.match(r"^\d+\.?\d*$", b))
+    def lexnum(self) -> Token:
+        tpos = copy.deepcopy(self.pos) 
+        buf = self.buffered_lex(lambda b,_: re.match(r"^\d+\.?\d*$", b))
         return Token(zlc.ZL_LITERAL, buf, tpos)
 
-    def __lexalphnum(self) -> Token:
-        tpos = copy.deepcopy(self.__pos) 
-        buf = self.__buffered_lex(lambda b,_: re.match(r"^[a-zA-Z_][a-zA-Z_\d]*$", b))
+    def lexalphnum(self) -> Token:
+        tpos = copy.deepcopy(self.pos) 
+        buf = self.buffered_lex(lambda b,_: re.match(r"^[a-zA-Z_][a-zA-Z_\d]*$", b))
         return Token(zlc.ZL_KEYWORD, buf, tpos) if buf in zlc.ZL_KEYWORD_LST else Token(zlc.ZL_IDENTIFIER, buf, tpos)
 
-    def __lexop(self) -> Token:
-        tpos = copy.deepcopy(self.__pos) 
-        buf = self.__buffered_lex(lambda b,_: b in zlc.ZL_OPERATOR_LST)
+    def lexop(self) -> Token:
+        tpos = copy.deepcopy(self.pos) 
+        buf = self.buffered_lex(lambda b,_: b in zlc.ZL_OPERATOR_LST)
         return Token(zlc.ZL_OPERATOR, buf, tpos)
 
 
     def next_token(self) -> Optional[Token]:
-        while re.match(r"\s", self.__curr()):
-            self.__advance()
+        while re.match(r"\s", self.curr()):
+            self.advance()
 
-        c = self.__curr()
+        c = self.curr()
 
         if not c:
             return None
         elif re.match(r"\d", c):
-            return self.__lexnum()
+            return self.lexnum()
         elif c == '\'':
-            self.__advance()
-            return self.__lexchar()
+            self.advance()
+            return self.lexchar()
         elif c == '\"':
-            self.__advance()
-            return self.__lexstr()
+            self.advance()
+            return self.lexstr()
         elif re.match(r"[a-zA-Z_]", c):
-            return self.__lexalphnum()
+            return self.lexalphnum()
         elif c in zlc.ZL_OPERATOR_LST:
-            return self.__lexop()
+            return self.lexop()
         elif c in zlc.ZL_SPECIALCHRS_LST:
-            tpos = copy.deepcopy(self.__pos)
-            self.__advance()
+            tpos = copy.deepcopy(self.pos)
+            self.advance()
             return Token(zlc.ZL_SPECIALCHAR, c, tpos)
