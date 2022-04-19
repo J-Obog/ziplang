@@ -1,3 +1,4 @@
+from ast import AST
 from typing import List
 
 class ASTNode:
@@ -12,4 +13,12 @@ class ScopeBlock(ASTNode):
     def add_node(self, node: ASTNode):
         self.__body.append(node)
 
+class BinaryExpression(ASTNode):
+    def __init__(self, operator: str, lhs: ASTNode, rhs: ASTNode):
+        super().__init__("BINEXPR")
+        self.__op: str = operator
 
+class UnaryExpression(ASTNode):
+    def __init__(self, operator: str, operand: ASTNode):
+        super().__init__("UNEXPR")
+        self.__op: str = operator
