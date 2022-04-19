@@ -44,7 +44,7 @@ class Lexer:
         if self.end(): raise Exception('Error while scanning string literal')
 
         self.advance()
-        return Token(zlc.ZL_LITERAL, buf, tpos)
+        return Token(zlc.ZL_LITERAL, f"\"{buf}\"", tpos)
 
     def lexchar(self) -> Token:
         tpos = copy.deepcopy(self.pos) 
@@ -53,7 +53,7 @@ class Lexer:
         if len(buf) > 1 or self.end(): raise Exception('Error while scanning character literal')
 
         self.advance()
-        return Token(zlc.ZL_LITERAL, buf, tpos)
+        return Token(zlc.ZL_LITERAL, f"\'{buf}\'", tpos)
 
     def lexnum(self) -> Token:
         tpos = copy.deepcopy(self.pos) 
