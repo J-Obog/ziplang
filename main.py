@@ -1,4 +1,4 @@
-from lexer import Lexer
+from ziplang.lexer import Lexer
 
 txt = "myfunction(){}"
 
