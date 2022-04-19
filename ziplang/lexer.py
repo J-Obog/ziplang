@@ -1,5 +1,5 @@
 from typing import Optional, Callable
-from ziplang.tokens import Token
+from ziplang.token import Token
 from ziplang.position import Position
 import ziplang.constants as zlc
 import copy
@@ -32,7 +32,7 @@ class Lexer:
 
     def __buffered_lex(self, fn: Callable) -> str:
         buf = ""
-        while fn(buf, self.__curr()) and not self.__end():
+        while fn(buf + self.__curr(), self.__curr()) and not self.__end():
             buf += self.__curr()
             self.__advance()
         return buf
@@ -54,7 +54,6 @@ class Lexer:
 
         self.__advance()
         return Token(zlc.ZL_LITERAL, buf, tpos)
-
 
     def __lexnum(self) -> Token:
         tpos = copy.deepcopy(self.__pos) 
