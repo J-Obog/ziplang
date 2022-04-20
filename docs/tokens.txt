@@ -1,0 +1,55 @@
+=== TYPE SPECIFIERS === 
+int 
+chr 
+str
+bool
+float
+
+=== LOOP STRUCTURES ===
+for
+while
+
+=== LITERAL CONSTANTS ===
+true
+false
+
+=== CONTROL FLOW ===
+if
+else
+elf
+fn
+ret
+
+=== ASSIGNMENT OPERATORS === 
+=
+
+=== ARITHMETIC OPERATORS ===
++
+-
+*
+/
+%
+^ 
+
+=== RELATIONAL OPERATORS ===
+> 
+>=
+< 
+<=
+==
+!= 
+
+=== LOGICAL OPERATORS ===
+!
+|
+&
+
+=== SPECIAL CHARACTERS ===
+{    
+}
+[ 
+] 
+( 
+) 
+\ 
+,

@@ -11,6 +11,3 @@ class Parser:
 
     def end(self) -> bool:
         return self.curr_tkn == None
-
-    def parse(self) -> zlast.ASTNode:
-        pass            
