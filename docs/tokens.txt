@@ -1,4 +1,4 @@
-=== TYPE SPECIFIERS === 
+=== PRIMITIVE TYPE SPECIFIERS === 
 int 
 chr 
 str

@@ -1,19 +1,28 @@
 EBNF PRODUCTIONS
 
-expression ::= <term> { ('+' | '-') <term> }
-term ::= <factor> { ('*' | '/') <factor>} 
-factor ::= <literal> | <identifier> | <expression>
+EXPRESSIONS
 primitive_type ::= 'int' | 'chr' | 'str' | 'bool' | 'float'
-type_specifier ::= (primitive_type | identitfier)
-statement ::= variable_declaration | variable_assignment
-block_statement ::= '{' { statement } '}'
-param_list ::= '(' {',' <type_specifier> <identifier>} ')'
+relation_operator ::= '>' | '>=' | '<' | '<=' | '==' | '!='
+arithmetic_operator ::= '+' | '-' | '/' | '*' | '%' | '^' 
+logical_operator ::= '!' | '|' | '&'
 
+expression = <operand> { <operator> <operand> }
+operand = <identifier> | <literal> | '(' <expression> ')'
+operator = <relation_operator> | <logical_operator> | <arithmetic_operator>
 
+type_specifier ::= <primitive_type> | <identitfier>
+statement ::= <simple_statement> | <compound_statement>
 
+block_statement ::= '{' { <statement> } '}'
+param_list ::= '(' {',' <type_specifier> <identifier> } ')'
+
+simple_statement ::= <variable_assignment> | <variable_declaration>
 variable_declaration ::= <type_specifier> <variable_assignment> ';'
 variable_assignment ::= <identifier> '=' <expression> ';'
+return_statement ::= 'ret' <expression> ';'
+
+compound_statement ::= <function_declaration> | <for_loop_statement> | <while_loop_statement> | <if_statement>
 function_declaration ::= 'fn' <identifier> <param_list> <type_specifier> <block_statement>
 for_loop_statement ::= 'for' '(' <variable_declaration> ';' <expression> ';' <variable_assignment> ')' <block_statement>
 while_loop_statement ::= 'while' '(' <expression> ')' <block_statement>
-
+if_statement ::= 'if' <expression> <block_statement> { 'elf' <expression> <block_statement> } ['else' <block_statement>] 
