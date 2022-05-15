@@ -9,10 +9,6 @@ float
 for
 while
 
-=== LITERAL CONSTANTS ===
-true
-false
-
 === CONTROL FLOW ===
 if
 else
