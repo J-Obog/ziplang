@@ -1,9 +1,12 @@
-=== PRIMITIVE TYPE SPECIFIERS === 
+=== TYPE SPECIFIERS === 
 int 
 chr 
 str
 bool
 float
+ptr
+arr
+struct
 
 === LOOP STRUCTURES ===
 for

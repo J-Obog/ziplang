@@ -39,6 +39,9 @@ TKN_NUMBER = 35
 TKN_STRING = 36
 TKN_CHAR = 37
 TKN_IDENT = 38
+TKN_ARR = 39
+TKN_PTR = 40
+TKN_STRUCT = 41
 
 
 #token mappers
@@ -54,7 +57,10 @@ KEYWORD_TBL = {
     'else': TKN_ELSE,
     'elf': TKN_ELF,
     'fn': TKN_FN, 
-    'ret': TKN_RET
+    'ret': TKN_RET,
+    'arr': TKN_ARR, 
+    'ptr': TKN_PTR, 
+    'struct': TKN_STRUCT 
 }
 
 SPECIAL_CHAR_TBL = {

@@ -1,13 +1,9 @@
-from ziplang.lexer import Lexer, Token
+from ziplang.lexer import Lexer
 import ziplang.ast as zlast
 
 class Parser:
-    def __init__(self, lexer: Lexer):
-        self.lexer: Lexer = lexer
-        self.curr_tkn: Token = lexer.next_token()
+    def __init__(self, lex: Lexer):
+        self.lex: Lexer = lex
 
-    def advance(self):
-        self.curr_tkn = self.lexer.next_token()
-
-    def end(self) -> bool:
-        return self.curr_tkn == None
+    def next_node(self) -> zlast.ASTNode:
+        pass
