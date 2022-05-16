@@ -16,17 +16,16 @@ statement ::= <simple_statement> | <compound_statement>
 block_statement ::= '{' { <statement> } '}'
 param_list ::= '(' {',' <type_specifier> <identifier> } ')'
 
+== SIMPLE STMT ==
 simple_statement ::= <variable_assignment> | <variable_declaration>
+
 variable_declaration ::= <type_specifier> <variable_assignment> ';'
 variable_assignment ::= <identifier> '=' <expression> ';'
 return_statement ::= 'ret' <expression> ';'
 
+=== COMPOUND STMT === 
 compound_statement ::= <function_declaration> | <for_loop_statement> | <while_loop_statement> | <if_statement>
-|
-function_declaration ::= 'fn' <identifier> <param_list> <type_specifier> <block_statement>
-|
+function_declaration ::= 'fn' <identifier> '(' <param_list> ')' <type_specifier> <block_statement>
 for_loop_statement ::= 'for' '(' <variable_declaration> ';' <expression> ';' <variable_assignment> ')' <block_statement>
-|
 while_loop_statement ::= 'while' '(' <expression> ')' <block_statement>
-|
 if_statement ::= 'if' <expression> <block_statement> { 'elf' <expression> <block_statement> } ['else' <block_statement>] 
