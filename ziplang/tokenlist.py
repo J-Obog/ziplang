@@ -45,6 +45,8 @@ TKN_STRUCT = 41
 TKN_CONST = 42
 TKN_SEMICOL = 43
 TKN_AT = 43
+TKN_TILDE = 44
+TKN_ALIAS = 45
 
 #token mappers
 KEYWORD_TBL = {
@@ -63,7 +65,8 @@ KEYWORD_TBL = {
     #'arr': TKN_ARR, 
     'ptr': TKN_PTR, 
     'struct': TKN_STRUCT,
-    'const': TKN_CONST
+    'const': TKN_CONST, 
+    'alias': TKN_ALIAS
 }
 
 SPECIAL_CHAR_TBL = {
@@ -75,7 +78,8 @@ SPECIAL_CHAR_TBL = {
     ')': TKN_RPAREN,
     ',': TKN_COMMA, 
     ';': TKN_SEMICOL,
-    '@': TKN_AT
+    '@': TKN_AT,
+    '~': TKN_TILDE
 }
 
 OPERATOR_TBL = {
