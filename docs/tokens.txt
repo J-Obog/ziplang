@@ -1,11 +1,9 @@
 === TYPE SPECIFIERS === 
 int 
 chr 
-str
 bool
 float
 ptr
-arr
 struct
 const
 
@@ -55,3 +53,4 @@ ret
 ,
 ;
 @
+~

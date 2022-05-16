@@ -1,7 +1,7 @@
 EBNF PRODUCTIONS
 
 DATA TYPES 
-primitive_type ::= 'int' | 'chr' | 'str' | 'bool' | 'float'
+primitive_type ::= 'int' | 'chr' | 'bool' | 'float'
 type_specifier ::= <primitive_type> | <identitfier>
 type_expression ::= ['const'] <type_specifier> ['ptr'] ['arr']
 
