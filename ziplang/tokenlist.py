@@ -43,7 +43,7 @@ TKN_ARR = 39
 TKN_PTR = 40
 TKN_STRUCT = 41
 TKN_CONST = 42
-
+TKN_SEMICOL = 43
 
 #token mappers
 KEYWORD_TBL = {
@@ -72,7 +72,8 @@ SPECIAL_CHAR_TBL = {
     ']': TKN_RSQR,
     '(': TKN_LPAREN,
     ')': TKN_RPAREN,
-    ',': TKN_COMMA
+    ',': TKN_COMMA, 
+    ';': TKN_SEMICOL
 }
 
 OPERATOR_TBL = {
