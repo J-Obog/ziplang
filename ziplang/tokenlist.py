@@ -42,6 +42,7 @@ TKN_IDENT = 38
 TKN_ARR = 39
 TKN_PTR = 40
 TKN_STRUCT = 41
+TKN_CONST = 42
 
 
 #token mappers
@@ -60,7 +61,8 @@ KEYWORD_TBL = {
     'ret': TKN_RET,
     'arr': TKN_ARR, 
     'ptr': TKN_PTR, 
-    'struct': TKN_STRUCT 
+    'struct': TKN_STRUCT,
+    'const': TKN_CONST
 }
 
 SPECIAL_CHAR_TBL = {
