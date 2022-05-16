@@ -2,7 +2,7 @@
 #token list
 TKN_INT = 0
 TKN_CHR = 1
-TKN_STR = 2
+#TKN_STR = 2
 TKN_BOOL = 3 
 TKN_FLOAT = 4
 TKN_FOR = 5 
@@ -39,7 +39,7 @@ TKN_NUMBER = 35
 TKN_STRING = 36
 TKN_CHAR = 37
 TKN_IDENT = 38
-TKN_ARR = 39
+#TKN_ARR = 39
 TKN_PTR = 40
 TKN_STRUCT = 41
 TKN_CONST = 42
@@ -49,7 +49,7 @@ TKN_AT = 43
 #token mappers
 KEYWORD_TBL = {
     'int': TKN_INT,
-    'str': TKN_STR,
+    #'str': TKN_STR,
     'chr': TKN_CHR,
     'float': TKN_FLOAT,
     'bool': TKN_BOOL,
@@ -60,7 +60,7 @@ KEYWORD_TBL = {
     'elf': TKN_ELF,
     'fn': TKN_FN, 
     'ret': TKN_RET,
-    'arr': TKN_ARR, 
+    #'arr': TKN_ARR, 
     'ptr': TKN_PTR, 
     'struct': TKN_STRUCT,
     'const': TKN_CONST

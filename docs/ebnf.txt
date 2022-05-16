@@ -1,7 +1,12 @@
 EBNF PRODUCTIONS
 
-EXPRESSIONS
+DATA TYPES 
 primitive_type ::= 'int' | 'chr' | 'str' | 'bool' | 'float'
+type_specifier ::= <primitive_type> | <identitfier>
+type_expression ::= ['const'] <type_specifier> ['ptr'] ['arr']
+
+EXPRESSIONS
+
 relation_operator ::= '>' | '>=' | '<' | '<=' | '==' | '!='
 arithmetic_operator ::= '+' | '-' | '/' | '*' | '%' | '^' 
 logical_operator ::= '!' | '|' | '&'
@@ -10,7 +15,6 @@ expression = <operand> { <operator> <operand> }
 operand = <identifier> | <literal> | '(' <expression> ')'
 operator = <relation_operator> | <logical_operator> | <arithmetic_operator>
 
-type_specifier ::= <primitive_type> | <identitfier>
 statement ::= <simple_statement> | <compound_statement>
 
 block_statement ::= '{' { <statement> } '}'
@@ -19,7 +23,7 @@ param_list ::= '(' {',' <type_specifier> <identifier> } ')'
 == SIMPLE STMT ==
 simple_statement ::= <variable_assignment> | <variable_declaration>
 
-variable_declaration ::= <type_specifier> <variable_assignment> ';'
+variable_declaration ::= <identifier> <type_expression> '=' <variable_assignment> ';'
 variable_assignment ::= <identifier> '=' <expression> ';'
 return_statement ::= 'ret' <expression> ';'
 
