@@ -35,9 +35,9 @@ TKN_RSQR = 31
 TKN_LPAREN = 32
 TKN_RPAREN = 33
 TKN_COMMA = 34
-TKN_NUMBER = 35 
-TKN_STRING = 36
-TKN_CHAR = 37
+TKN_INT_LIT = 35 
+TKN_STRING_LIT = 36
+TKN_CHAR_LIT = 37
 TKN_IDENT = 38
 #TKN_ARR = 39
 TKN_PTR = 40
@@ -47,6 +47,10 @@ TKN_SEMICOL = 43
 TKN_AT = 43
 TKN_TILDE = 44
 TKN_ALIAS = 45
+TKN_OPERATOR = 46
+TKN_EXTSYM = 47
+TKN_FLOAT_LIT = 48
+
 
 #token mappers
 KEYWORD_TBL = {
@@ -66,7 +70,9 @@ KEYWORD_TBL = {
     'ptr': TKN_PTR, 
     'struct': TKN_STRUCT,
     'const': TKN_CONST, 
-    'alias': TKN_ALIAS
+    'alias': TKN_ALIAS, 
+    'operator': TKN_OPERATOR,
+    'extsym': TKN_EXTSYM
 }
 
 SPECIAL_CHAR_TBL = {

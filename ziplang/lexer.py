@@ -20,7 +20,7 @@ class Lexer:
                 raise Exception("ERROR lexing string literal")
             img += curr
 
-        return Token(tkns.TKN_STRING, img)
+        return Token(tkns.TKN_STRING_LIT, img)
 
 
     def lex_char_lit(self) -> Token:
@@ -30,7 +30,7 @@ class Lexer:
         if curr != '\'':
             raise Exception("ERROR lexing char literal")
 
-        return Token(tkns.TKN_CHAR, c)
+        return Token(tkns.TKN_CHAR_LIT, c)
 
 
     def lex_num_lit(self) -> Token:
@@ -47,7 +47,7 @@ class Lexer:
         if curr != '':
             self.buf.seek(self.buf.tell() - 1)
         
-        return Token(tkns.TKN_NUMBER, img)
+        return Token(tkns.TKN_FLOAT_LIT, img) if has_dec else Token(tkns.TKN_INT_LIT)
 
 
     def lex_ident(self) -> Token:
