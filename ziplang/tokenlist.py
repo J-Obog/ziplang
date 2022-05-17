@@ -51,6 +51,7 @@ TKN_OPERATOR = 47
 TKN_EXTSYM = 48
 TKN_FLOAT_LIT = 49
 TKN_DOT = 50
+TKN_THIS = 51
 
 #token mappers
 KEYWORD_TBL = {
@@ -72,7 +73,8 @@ KEYWORD_TBL = {
     'const': TKN_CONST, 
     'alias': TKN_ALIAS, 
     'operator': TKN_OPERATOR,
-    'extsym': TKN_EXTSYM
+    'extsym': TKN_EXTSYM, 
+    'this': TKN_THIS
 }
 
 SPECIAL_CHAR_TBL = {
