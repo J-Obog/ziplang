@@ -50,7 +50,7 @@ TKN_ALIAS = 45
 TKN_OPERATOR = 46
 TKN_EXTSYM = 47
 TKN_FLOAT_LIT = 48
-
+TKN_DOT = 49
 
 #token mappers
 KEYWORD_TBL = {
@@ -100,7 +100,8 @@ OPERATOR1_TBL = { #one byte operators
     '<': TKN_LESS,
     '!': TKN_NOT, 
     '|': TKN_OR,
-    '&': TKN_AND
+    '&': TKN_AND,
+    '.': TKN_DOT,
 }
 
 OPERATOR2_TBL = { #two byte operators
