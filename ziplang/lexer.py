@@ -3,13 +3,20 @@ import ziplang.tokenlist as tkns
 import io
 
 @dataclass
+class Position:
+    line: int
+    col: int
+
+@dataclass
 class Token:
     type: int
     image: str
+    pos: Position
 
 class Lexer:
     def __init__(self, buf: io.StringIO):
         self.buf: io.StringIO = buf
+        self.pos: Position = Position(0,0)
 
     def lex_str_lit(self) -> Token:
         curr = self.buf.read(1)
@@ -80,6 +87,14 @@ class Lexer:
 
     def next_token(self) -> Token:
         curr = self.buf.read(1)
+
+        while curr.isspace():
+            if curr == '\n':
+                self.pos.col = 0 
+                self.pos.line += 1
+            else:
+                self.pos.col += 1
+            curr = self.buf.read(1)
 
         if curr == '':
             return None
