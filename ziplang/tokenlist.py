@@ -84,8 +84,6 @@ SPECIAL_CHAR_TBL = {
     ')': TKN_RPAREN,
     ',': TKN_COMMA, 
     ';': TKN_SEMICOL,
-    '@': TKN_AT,
-    '~': TKN_TILDE
 }
 
 OPERATOR1_TBL = { #one byte operators
@@ -102,6 +100,8 @@ OPERATOR1_TBL = { #one byte operators
     '|': TKN_OR,
     '&': TKN_AND,
     '.': TKN_DOT,
+    '@': TKN_AT,
+    '~': TKN_TILDE,
 }
 
 OPERATOR2_TBL = { #two byte operators
