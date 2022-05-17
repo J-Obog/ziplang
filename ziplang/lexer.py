@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 import ziplang.tokenlist as tkns
 import io
+import copy
 
 @dataclass
 class Position:
@@ -11,12 +12,12 @@ class Position:
 class Token:
     type: int
     image: str
-    pos: Position
+    #pos: Position
 
 class Lexer:
     def __init__(self, buf: io.StringIO):
         self.buf: io.StringIO = buf
-        self.pos: Position = Position(0,0)
+        self.pos: Position = Position(-1,0)
 
     def lex_str_lit(self) -> Token:
         curr = self.buf.read(1)
@@ -26,6 +27,7 @@ class Lexer:
             if curr == '':
                 raise Exception("ERROR lexing string literal")
             img += curr
+            curr = self.buf.read(1)
 
         return Token(tkns.TKN_STRING_LIT, img)
 
@@ -44,17 +46,21 @@ class Lexer:
         curr = self.buf.read(1)
         has_dec = False
         img = ""
-
+        
         while curr.isdigit() or curr == '.':
-            if curr == '.' and has_dec:
-                raise Exception("ERROR lexing num literal")
+            if curr == '.':
+                if has_dec:
+                    raise Exception("ERROR lexing num literal")
+                else:
+                    has_dec = True
+        
             img += curr
             curr = self.buf.read(1)
 
         if curr != '':
             self.buf.seek(self.buf.tell() - 1)
         
-        return Token(tkns.TKN_FLOAT_LIT, img) if has_dec else Token(tkns.TKN_INT_LIT)
+        return Token(tkns.TKN_FLOAT_LIT, img) if has_dec else Token(tkns.TKN_INT_LIT, img)
 
 
     def lex_ident(self) -> Token:
@@ -65,35 +71,29 @@ class Lexer:
             img += curr
             curr = self.buf.read(1)
 
-        kw = tkns.KEYWORD_TBL.get(img, None)
-        self.buf.seek(self.buf.tell() - 1)
+        if curr != '':
+            self.buf.seek(self.buf.tell() - 1)
 
-        if kw != None:
-            return Token(kw, img)
-        else:
-            return Token(tkns.TKN_IDENT, img)
+        kw = tkns.KEYWORD_TBL.get(img, None)
+        return Token(kw, img) if kw != None else Token(tkns.TKN_IDENT, img)
 
     def lex_operator(self) -> Token:
-        curr = self.buf.read(1)
-        nxt = self.buf.read(1)
-        twb = curr + nxt
-
-        if nxt == '' or not(twb in tkns.OPERATOR_TBL): 
-            self.buf.seek(self.buf.tell() - 1)
-            return Token(tkns.OPERATOR_TBL[curr], curr)
+        fst = self.buf.read(1)
+        snd = self.buf.read(1)
+        twb = fst + snd
+        
+        if twb in tkns.OPERATOR2_TBL:
+            return Token(tkns.OPERATOR2_TBL[twb], twb)
         else:
-            return Token(tkns.OPERATOR_TBL[twb], twb)
+            if snd != '':
+                self.buf.seek(self.buf.tell() - 1)
+            return Token(tkns.OPERATOR1_TBL[fst], fst)
             
 
     def next_token(self) -> Token:
         curr = self.buf.read(1)
 
         while curr.isspace():
-            if curr == '\n':
-                self.pos.col = 0 
-                self.pos.line += 1
-            else:
-                self.pos.col += 1
             curr = self.buf.read(1)
 
         if curr == '':
@@ -113,7 +113,7 @@ class Lexer:
             self.buf.seek(self.buf.tell() - 1)
             return self.lex_ident()
 
-        elif curr in tkns.OPERATOR_TBL:
+        elif curr in tkns.OPERATOR1_TBL:
             self.buf.seek(self.buf.tell() - 1)
             return self.lex_operator()
 

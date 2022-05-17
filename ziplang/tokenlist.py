@@ -88,7 +88,7 @@ SPECIAL_CHAR_TBL = {
     '~': TKN_TILDE
 }
 
-OPERATOR_TBL = {
+OPERATOR1_TBL = { #one byte operators
     '=': TKN_ASSIGN,
     '+': TKN_PLUS, 
     '-': TKN_SUB,
@@ -97,12 +97,15 @@ OPERATOR_TBL = {
     '%': TKN_MOD, 
     '^': TKN_EXP, 
     '>': TKN_GRT,
-    '>=': TKN_GRT_EQ,
     '<': TKN_LESS,
-    '<=': TKN_LESS_EQ,
-    '==': TKN_EQ,
-    '!=': TKN_NOT_EQ,
     '!': TKN_NOT, 
     '|': TKN_OR,
     '&': TKN_AND
+}
+
+OPERATOR2_TBL = { #two byte operators
+    '>=': TKN_GRT_EQ,
+    '<=': TKN_LESS_EQ,
+    '==': TKN_EQ,
+    '!=': TKN_NOT_EQ,
 }
