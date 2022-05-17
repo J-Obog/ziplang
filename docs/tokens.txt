@@ -1,4 +1,4 @@
-=== TYPE SPECIFIERS === 
+=== KEYWORDS === 
 int 
 chr 
 bool
@@ -6,41 +6,38 @@ float
 ptr
 struct
 const
-
-=== LOOP STRUCTURES ===
 for
 while
-
-=== CONTROL FLOW ===
 if
 else
 elf
 fn
 ret
+this
+operator 
+extsym
+alias
 
-=== ASSIGNMENT OPERATORS === 
+=== OPERATORS === 
 =
-
-=== ARITHMETIC OPERATORS ===
 +
 -
 *
 /
 %
 ^ 
-
-=== RELATIONAL OPERATORS ===
 > 
 >=
 < 
 <=
 ==
 != 
-
-=== LOGICAL OPERATORS ===
 !
 |
 &
+@
+~
+.
 
 === SPECIAL CHARACTERS ===
 {    
@@ -49,8 +46,5 @@ ret
 ] 
 ( 
 ) 
-\ 
 ,
 ;
-@
-~
